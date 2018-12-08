@@ -23,11 +23,14 @@ function wordToButton() {
     }
 }
 //function that moves the gif from the opposite state that it is in (still to animated and vice versa)
+
 function gifSwitch() {
-    $(".gif").on("click", function () {
+    $(".giphyBox").on("click", '.giffy', function () {
+
         var state = $(this).attr("data-state");
+
         if (state === "still") {
-            $(this).attr("src", $(this.attr("data-animate")));
+            $(this).attr("src", $(this).attr("data-animate"));
             $(this).attr("data-state", "animate");
         } else {
             $(this).attr("src", $(this).attr("data-still"));
@@ -35,9 +38,22 @@ function gifSwitch() {
         }
     });
 }
+// function gifSwitch() {
+//     $(".gif").on("click", function () {
+//         var state = $(this).attr("data-state");
+//         if (state === "still") {
+//             $(this).attr("src", $(this.attr("data-animate")));
+//             $(this).attr("data-state", "animate");
+//         } else {
+//             $(this).attr("src", $(this).attr("data-still"));
+//             $(this).attr("data-state", "still");
+//         }
+//     });
+
 //function to generate the gifs when the keywordButton is clicked
 function generateGif(text) {
     $(".giphyBox").empty();
+    var buttonKeyword = $(this).text();
     var queryURL =
         "https://api.giphy.com/v1/gifs/search?q=" +
         text +
@@ -46,12 +62,13 @@ function generateGif(text) {
         url: queryURL,
         method: "GET"
     }).done(function (response) {
+        console.log(buttonKeyword);
         for (i = 0; i < 10; i++) {
             var srcOfGif = response.data[i].images.fixed_height_still.url;
             var altSrcGif = response.data[i].images.fixed_height.url;
             var gifRating = response.data[i].rating;
             $(".giphyBox").append(
-                "<div class='col-md-6'><img src=" +
+                "<div class='col-md-6'><img class='giffy' src=" +
                 srcOfGif +
                 " data-still" +
                 altSrcGif +
